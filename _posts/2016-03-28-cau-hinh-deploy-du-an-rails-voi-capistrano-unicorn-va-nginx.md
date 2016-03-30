@@ -84,6 +84,7 @@ set :scm, :git
 
 ```
 5.Vậy là ta thiết lập những cấu hình chung để `deploy`. Giờ tùy vào từng môi trường ta sẽ thiết lập riêng. Bài viết này mình sẽ thiết lập trên môi trường `production`. Mở file `production.rb`.
+
 ```ruby
 #config/deploy/production.rb
 #Set user và và server_name của bạn
