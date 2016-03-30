@@ -18,6 +18,7 @@ Tuy nhiên công việc deploy không phải lúc nào cũng diễn ra xuôi s�
 Bài viết này mình sẽ hưỡng dẫn cấu hình để deploy một dự án Rails dùng capistrano, unicorn và nginx lên server Ubuntu 14.04.
 
  Trước khi bắt đầu, hãy chắc chắn là server của bạn đã cài đặt một số thứ như sau: 
+ 
  * `Ruby`
  * `Git`
  * `Nginx`
@@ -51,6 +52,7 @@ Lệnh trên sẽ tạo cấu trúc file như sau.
     └── capistrano
             └── tasks
 3. Require thêm một số gói vào `Capfile` và `Capfile` của bạn sẽ trông như thế này.
+
 ``` ruby
 #Capfile
 # Load DSL and set up stages
@@ -67,6 +69,7 @@ require 'capistrano/unicorn_nginx'
 
 Dir.glob('lib/capistrano/tasks/*.rake').each { |r| import r }
 ```
+
 4.Tiếp theo cấu hình cho `deploy.rb`.
 
 ``` ruby
@@ -100,6 +103,7 @@ server fetch(server_name), user: fetch(deploy_user), roles: %w{web app db}, prim
 
 ```
 Trường hợp server của bạn bắt authentication bằng `ssh` thì bạn thêm tùy chọn `ssh_option`
+
 ``` ruby
 #config/deploy/production.rb
 #home/anhn/.ssh/appdeploy.pem là đường dẫn mà mình dùng `.pem` để xác thực
