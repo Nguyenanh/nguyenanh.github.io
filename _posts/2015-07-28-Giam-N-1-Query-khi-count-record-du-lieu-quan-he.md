@@ -8,6 +8,7 @@ comments: true
 ---
 Trong Rails đã hỗ trợ một method includes dùng để hổ trợ việc giảm N+1 query trong truy vấn cơ sở dữ liệu quan hệ. Như vậy ở đây mình đặt ra một bài toán như sau.
 Mình có table `categories`  has_many với table `posts` và mình muốn lấy list categories và count các bài post tương ứng của category đó thì mình làm như sau:
+
 ```ruby
 #  Controller
 class CategoryController < ApplicationController
@@ -21,6 +22,7 @@ end
 <% end %>
 ```
 Nhìn vào console bạn sẽ thấy như sau:
+
 >Category Load (0.1ms)  SELECT `categories`.* FROM `categories`
    (0.2ms)  SELECT COUNT(*) FROM `posts` WHERE `posts`.`category_id` = 2
    (0.3ms)  SELECT COUNT(*) FROM `posts` WHERE `posts`.`category_id` = 3
@@ -29,6 +31,7 @@ Nhìn vào console bạn sẽ thấy như sau:
 3 câu lệnh SELECT count được thực hiện.  Điều này sẽ ảnh hưởng đến tốc độ truy vấn dữ liệu khi hệ thống dữ liệu lớn. Để giải quyết vấn đề này mình xin hướng dãn 2 cách 
 ## 1. Tạo một câu query
 Mình tạo một cái scope với dòng query như sau:
+
 ``` ruby
 # Model
 class Category < ActiveRecord::Base
@@ -48,6 +51,7 @@ end
   <h1><%= category.name %>(<%= category.posts_count %>)<h1>
 <% end %>
 ```
+
 Nhìn vào console bạn sẽ thấy sự khác biệt
 >Category Load (0.1ms)  SELECT categories.* ,Count(posts.id) AS posts_count FROM `categories` INNER JOIN `posts` ON `posts`.`category_id` = `categories`.`id` GROUP BY categories.id
 
@@ -56,6 +60,7 @@ Nó chỉ cần chạy một truy vấn sơ với ban đầu. Dòng trên có ý
 ------------------------------------------------------------
 ###  Lưu ý
  `scope` ở trên sẽ không lấy ra những category không có record `posts`  nào. Nếu muốn lấy hết thì bạn có thể tạo một `scope` như dưới đây.
+ 
 ``` ruby
   scope :with_count_posts, -> {joins("LEFT JOIN posts ON categories.id = posts.category_id").select("categories.* ,Count(posts.id) AS posts_count").group("categories.id")}
 ```  
