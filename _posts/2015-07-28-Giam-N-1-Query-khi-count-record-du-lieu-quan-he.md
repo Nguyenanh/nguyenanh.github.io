@@ -1,3 +1,10 @@
+layout: post
+title: Giảm N+1 Query khi count record dữ liệu quan hệ
+excerpt: "Trong Rails đã hỗ trợ một method includes dùng để hổ trợ việc giảm N+1 query trong truy vấn cơ sở dữ liệu quan hệ. Như vậy ở đây mình đặt ra một bài toán như sau."
+modified: 2016-03-28
+tags: [deploy, capistrano, unicorn, nginx]
+comments: true
+
 Trong Rails đã hỗ trợ một method includes dùng để hổ trợ việc giảm N+1 query trong truy vấn cơ sở dữ liệu quan hệ. Như vậy ở đây mình đặt ra một bài toán như sau.
 Mình có table `categories`  has_many với table `posts` và mình muốn lấy list categories và count các bài post tương ứng của category đó thì mình làm như sau:
 ```ruby
