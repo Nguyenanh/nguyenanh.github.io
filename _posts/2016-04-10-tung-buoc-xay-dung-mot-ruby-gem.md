@@ -41,6 +41,7 @@ module HellowordHelper
   end
 end
 ```
+
 #### Bước 4: Khai báo helper của chúng ta vào rails
 
 Khao báo helper của chúng ta vào `ActionView::Helpers::AssetTagHelper` để Rails có thể biết và thực thi nó.
