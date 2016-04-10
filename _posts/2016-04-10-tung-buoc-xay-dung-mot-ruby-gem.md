@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Từng bước để xây dựng một Ruby Gem
-excerpt: "`Deploy` là quá trình đưa source code bạn lên server sau khi bạn đã phát triển xong và chuẩn bị giao cho khách hàng. Đây là một công đoạn có phải nói các developer nào cũng phát biết trong con đường sự ngiệp của mình."
+excerpt: "Bài viết này tôi sẽ không đi sâu vào lý thuyết, thay vào đó sẽ sẽ hướng dẫn các bạn bước từng bước để tạo ra một gem đơn giản nhất có thể chính là tạo ra helper in ra dòng Hello Word. Nghe thôi thấy cũng đơn giản rồi :D. Bắt đầu thôi."
 modified: 2016-03-28
 tags: [ruby, gem, rails]
 comments: true
