@@ -143,4 +143,4 @@ Sau đó chúng ta có thể dùng `helloword-rails` một cách bình thường
 
 Quá đơn giản!!!.
 
-[helloword-rails]: https://github.com/Nguyenanh/helloword-rails
+[helloword-rails](https://github.com/Nguyenanh/helloword-rails)
