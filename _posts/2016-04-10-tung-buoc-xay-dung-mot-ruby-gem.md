@@ -86,8 +86,11 @@ Cuối cũng chạy lệnh `bundle install` và `rails s`, sau đó truy cập <
 	<img src="https://cloud.githubusercontent.com/assets/7424863/14407815/663ffd2a-ff00-11e5-818c-2e6716c65e45.png"></a>
 </figure>
 Quá đơn giản !!!!
+
 ## II: Public gem lên trang chủ.
+
 Thay đổi một số thông tin trong `helloword-rails.gemspec`
+
 ``` ruby
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
