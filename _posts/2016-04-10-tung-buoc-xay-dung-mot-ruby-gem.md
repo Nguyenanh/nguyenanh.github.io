@@ -24,11 +24,12 @@ Chúng ta sẽ được cấu trúc như này sau khi chạy lệnh trên.
 
 Tiếp theo tạo ra một file helper đặt trong thư mục `lib/helloword/rails` bằng cách chạy 2 dòng lệnh dưới đây.
 
-`cd helloword-rails/`
+``` ruby
+cd helloword-rails/
+touch lib/helloword/rails/helloword_helper.rb
+```
 
-`touch lib/helloword/rails/helloword_helper.rb`
-
-### Bước 3: Tạo ra một phương thức của helper để in ra dòng hello word
+#### Bước 3: Tạo ra một phương thức của helper để in ra dòng hello word
 
 Mở file `helloword_helper.rb` và thêm nhưng dòng code dưới dây vào.
 
