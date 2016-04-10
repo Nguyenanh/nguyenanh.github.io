@@ -124,18 +124,18 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rspec'
 end
 ```
-Build gem của chúng ta với lệnh
+Build gem của chúng ta với lệnh.
 
 ``` ruby
 #terminal
 rake build
 ```
 
-Sau khi build thành công chúng ta được file `pkg/helloword-rails-0.1.0.gem`
-
-Cuối cùng đưa gem lên trang chủ <https://rubygems.org>
+Sau khi build thành công chúng ta được file `pkg/helloword-rails-0.1.0.gem`.
+Cuối cùng đưa gem lên trang chủ <https://rubygems.org>.
 
 ``` ruby
+#terminal
 gem push pkg/helloword-rails-0.1.0.gem
 ```
 
