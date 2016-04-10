@@ -19,6 +19,7 @@ Chúng ta sẽ được cấu trúc như này sau khi chạy lệnh trên.
 <figure>
 	<img src="https://cloud.githubusercontent.com/assets/7424863/14407550/b8d384a2-fef7-11e5-82af-1bb2a7cbc944.png"></a>
 </figure>
+
 #### Bước 2: Tạo một file helper `helloword_helper.rb`
 
 Tiếp theo tạo ra một file helper đặt trong thư mục `lib/helloword/rails` bằng cách chạy 2 dòng lệnh dưới đây.
@@ -40,6 +41,7 @@ module HellowordHelper
 end
 ```
 #### Bước 4: Khai báo helper của chúng ta vào rails
+
 Khao báo helper của chúng ta vào `ActionView::Helpers::AssetTagHelper` để Rails có thể biết và thực thi nó.
 
 ``` ruby
@@ -56,6 +58,7 @@ module ActionView
 end
 ```
 #### Bước 5: Tạo một ứng dụng Rails để test gem.
+
 Chạy lệnh sau để tạo mới ứng dụng rails.
 
 ``` ruby
@@ -66,6 +69,7 @@ rails generate controller site index
 ```
 
 #### Bước 6: Thêm gem của chúng ta vào `Gemfile`
+
 Trong file view `index.html.erb` và thêm helper của chúng ta vào.
 
 ``` ruby
