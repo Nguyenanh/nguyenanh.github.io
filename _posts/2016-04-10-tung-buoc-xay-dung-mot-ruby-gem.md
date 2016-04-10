@@ -1,12 +1,12 @@
 ---
 layout: post
 title: Từng bước để xây dựng một Ruby Gem
-excerpt: "Bài viết này tôi sẽ không đi sâu vào lý thuyết, thay vào đó sẽ sẽ hướng dẫn các bạn bước từng bước để tạo ra một gem đơn giản nhất có thể chính là tạo ra helper in ra dòng Hello Word. Nghe thôi thấy cũng đơn giản rồi :D. Bắt đầu thôi."
+excerpt: "Bài viết này chúng sẽ không đi sâu vào lý thuyết, thay vào đó sẽ sẽ hướng dẫn các bạn bước từng bước để tạo ra một gem đơn giản nhất có thể chính là tạo ra helper in ra dòng Hello Word. Nghe thôi thấy cũng đơn giản rồi :D. Bắt đầu thôi."
 modified: 2016-03-28
 tags: [ruby, gem, rails]
 comments: true
 ---
-Bài viết này tôi sẽ không đi sâu vào lý thuyết, thay vào đó sẽ sẽ hướng dẫn các bạn bước từng bước để tạo ra một `gem` đơn giản nhất có thể chính là tạo ra helper in ra dòng `Hello Word`. Nghe thôi thấy cũng đơn giản rồi :D. Bắt đầu thôi.
+Bài viết này chúng sẽ không đi sâu vào lý thuyết, thay vào đó sẽ sẽ hướng dẫn các bạn bước từng bước để tạo ra một `gem` đơn giản nhất có thể chính là tạo ra helper in ra dòng `Hello Word`. Nghe thôi thấy cũng đơn giản rồi :D. Bắt đầu thôi.
 # I: Xây dựng Gem
 ### Bước 1: Tạo cấu trúc của `gem`
 ``` ruby
