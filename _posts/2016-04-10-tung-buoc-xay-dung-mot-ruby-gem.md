@@ -7,9 +7,10 @@ tags: [ruby, gem, rails]
 comments: true
 ---
 Bài viết này chúng sẽ không đi sâu vào lý thuyết, thay vào đó sẽ sẽ hướng dẫn các bạn bước từng bước để tạo ra một `gem` đơn giản nhất có thể chính là tạo ra helper in ra dòng `Hello Word`. Nghe thôi thấy cũng đơn giản rồi :D. Bắt đầu thôi.
-# I: Xây dựng Gem
 
-### Bước 1: Tạo cấu trúc của `gem`
+## I: Xây dựng Gem
+
+#### Bước 1: Tạo cấu trúc của `gem`
 
 ``` ruby
 bundle gem helloword-rails
@@ -18,7 +19,7 @@ Chúng ta sẽ được cấu trúc như này sau khi chạy lệnh trên.
 <figure>
 	<img src="https://cloud.githubusercontent.com/assets/7424863/14407550/b8d384a2-fef7-11e5-82af-1bb2a7cbc944.png"></a>
 </figure>
-### Bước 2: Tạo một file helper `helloword_helper.rb`
+#### Bước 2: Tạo một file helper `helloword_helper.rb`
 
 Tiếp theo tạo ra một file helper đặt trong thư mục `lib/helloword/rails` bằng cách chạy 2 dòng lệnh dưới đây.
 
@@ -38,7 +39,7 @@ module HellowordHelper
   end
 end
 ```
-### Bước 4: Khai báo helper của chúng ta vào rails
+#### Bước 4: Khai báo helper của chúng ta vào rails
 Khao báo helper của chúng ta vào `ActionView::Helpers::AssetTagHelper` để Rails có thể biết và thực thi nó.
 
 ``` ruby
@@ -54,7 +55,7 @@ module ActionView
   end
 end
 ```
-### Bước 5: Tạo một ứng dụng Rails để test gem.
+#### Bước 5: Tạo một ứng dụng Rails để test gem.
 Chạy lệnh sau để tạo mới ứng dụng rails.
 
 ``` ruby
@@ -64,14 +65,16 @@ cd helloword-rails-app
 rails generate controller site index
 ```
 
-### Bước 6: Thêm gem của chúng ta vào `Gemfile`
+#### Bước 6: Thêm gem của chúng ta vào `Gemfile`
 Trong file view `index.html.erb` và thêm helper của chúng ta vào.
+
 ``` ruby
 #view/site/index.html.erb
 <h1><%= hello_word_tag %></h1>
 
 ```
 Mở `Gemfile` và thêm dòng
+
 ``` ruby
 # Gemfile
 gem 'helloword-rails', '0.1.0', path: '/Users/admin/Project-Ruby/helloword-rails/'
@@ -83,7 +86,7 @@ Cuối cũng chạy lệnh `bundle install` và `rails s`, sau đó truy cập <
 	<img src="https://cloud.githubusercontent.com/assets/7424863/14407815/663ffd2a-ff00-11e5-818c-2e6716c65e45.png"></a>
 </figure>
 Quá đơn giản !!!!
-# II: Public gem lên trang chủ.
+## II: Public gem lên trang chủ.
 Thay đổi một số thông tin trong `helloword-rails.gemspec`
 ``` ruby
 # coding: utf-8
