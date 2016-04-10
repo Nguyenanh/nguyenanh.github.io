@@ -8,7 +8,9 @@ comments: true
 ---
 Bài viết này chúng sẽ không đi sâu vào lý thuyết, thay vào đó sẽ sẽ hướng dẫn các bạn bước từng bước để tạo ra một `gem` đơn giản nhất có thể chính là tạo ra helper in ra dòng `Hello Word`. Nghe thôi thấy cũng đơn giản rồi :D. Bắt đầu thôi.
 # I: Xây dựng Gem
+
 ### Bước 1: Tạo cấu trúc của `gem`
+
 ``` ruby
 bundle gem helloword-rails
 ```
@@ -25,7 +27,9 @@ Tiếp theo tạo ra một file helper đặt trong thư mục `lib/helloword/ra
 `touch lib/helloword/rails/helloword_helper.rb`
 
 ### Bước 3: Tạo ra một phương thức của helper để in ra dòng hello word
+
 Mở file `helloword_helper.rb` và thêm nhưng dòng code dưới dây vào.
+
 ``` ruby
 # lib/helloword/rails/helloword_helper.rb
 module HellowordHelper
@@ -36,6 +40,7 @@ end
 ```
 ### Bước 4: Khai báo helper của chúng ta vào rails
 Khao báo helper của chúng ta vào `ActionView::Helpers::AssetTagHelper` để Rails có thể biết và thực thi nó.
+
 ``` ruby
 # lib/helloword/rails.rb
 require "helloword/rails/version"
