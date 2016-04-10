@@ -59,6 +59,7 @@ module ActionView
   end
 end
 ```
+
 #### Bước 5: Tạo một ứng dụng Rails để test gem.
 
 Chạy lệnh sau để tạo mới ứng dụng rails.
