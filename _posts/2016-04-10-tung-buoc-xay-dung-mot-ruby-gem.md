@@ -141,5 +141,6 @@ gem push pkg/helloword-rails-0.1.0.gem
 
 Sau đó chúng ta có thể dùng `helloword-rails` một cách bình thường.
 
-Quá đơn giản!!!
+Quá đơn giản!!!.
+
 [helloword-rails]: https://github.com/Nguyenanh/helloword-rails
