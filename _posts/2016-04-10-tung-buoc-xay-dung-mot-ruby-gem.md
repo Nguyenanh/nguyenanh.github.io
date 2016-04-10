@@ -125,10 +125,19 @@ Gem::Specification.new do |spec|
 end
 ```
 Build gem của chúng ta với lệnh
- `rake build`
+
+``` ruby
+#terminal
+rake build
+```
+
 Sau khi build thành công chúng ta được file `pkg/helloword-rails-0.1.0.gem`
 
-Cuối cùng dùng lệnh `gem push pkg/helloword-rails-0.1.0.gem` để đưa gem lên trang chủ <https://rubygems.org>
+Cuối cùng đưa gem lên trang chủ <https://rubygems.org>
+
+``` ruby
+gem push pkg/helloword-rails-0.1.0.gem
+```
 
 Sau đó chúng ta có thể dùng `helloword-rails` một cách bình thường.
 
