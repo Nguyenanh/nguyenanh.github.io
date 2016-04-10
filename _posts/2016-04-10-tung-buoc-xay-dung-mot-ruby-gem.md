@@ -111,6 +111,10 @@ end
 Build gem của chúng ta với lệnh
  `rake build`
 Sau khi build thành công chúng ta được file `pkg/helloword-rails-0.1.0.gem`
+
 Cuối cùng dùng lệnh `gem push pkg/helloword-rails-0.1.0.gem` để đưa gem lên trang chủ <https://rubygems.org>
+
 Sau đó chúng ta có thể dùng `helloword-rails` một cách bình thường.
+
 Quá đơn giản!!!
+[helloword-rails]: https://github.com/Nguyenanh/helloword-rails
