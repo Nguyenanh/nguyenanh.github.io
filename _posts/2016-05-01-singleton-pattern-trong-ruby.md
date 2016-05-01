@@ -1,10 +1,9 @@
-
 ---
 layout: post
 title: Singleton - Design Pattern trong Ruby
 excerpt: "Mẫu thiết kế Singleton đảm bảo rằng một lớp chỉ có một thể hiện (instance) duy nhất. Do thể hiện này có tiềm năng sử dụng trong suốt chương trình, nên mẫu thiết kế Singleton cũng cung cấp một điểm truy cập toàn cục đến nó."
-modified: 2016-03-28
-tags: [singleton, ruby, design pattern]
+modified: 2016-05-01
+tags: [singleton, ruby, design-pattern]
 comments: true
 ---
 ### Pattern Singleton là gì?
