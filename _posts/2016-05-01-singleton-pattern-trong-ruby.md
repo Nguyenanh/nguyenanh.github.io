@@ -70,6 +70,7 @@ end
 
 ```
 
+
 ``` ruby
 2.2.3 :002 > load 'singleton/singleton_module.rb'
  => true 
@@ -83,3 +84,5 @@ end
  => "postgresql" 
 2.2.3 :007 > 
 ```
+
+[Source](https://github.com/Nguyenanh/design-pattern)
