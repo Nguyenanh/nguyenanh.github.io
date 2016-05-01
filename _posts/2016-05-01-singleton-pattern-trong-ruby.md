@@ -59,8 +59,9 @@ Qua việc chạy trên cho thấy chỉ một instance được tao ra thông q
 Trong Ruby đã hỗ trợ cho chúng ta Singleton Patttern đó là Singeleton module. Để tối giản công việc trên chúng ta chỉ cần sử dụng nó.
 
  ``` ruby
- #singleton/singleton_moudle.rb
- require 'singleton'
+ 
+#singleton/singleton_moudle.rb
+require 'singleton'
 
 class Database
   include Singleton
