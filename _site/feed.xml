@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+<title type="text">NguyenAnh Dev Blog</title>
+<generator uri="https://github.com/jekyll/jekyll">Jekyll</generator>
+<link rel="self" type="application/atom+xml" href="/feed.xml" />
+<link rel="alternate" type="text/html" href="" />
+<updated>2016-05-01T05:45:35-03:00</updated>
+<id>/</id>
+<author>
+  <name>Nguyen Anh</name>
+  <uri>/</uri>
+  <email>cauut2117610@gmail.com</email>
+</author>
+
+
+<entry>
+  <title type="html"><![CDATA[Singleton - Design Pattern trong Ruby]]></title>
+  <link rel="alternate" type="text/html" href="/2016/05/01/singleton-pattern-trong-ruby" />
+  <id>/2016/05/01/singleton-pattern-trong-ruby</id>
+  <updated>2016-05-01T00:00:00-00:00</updated>
+  <published>2016-05-01T00:00:00-03:00</published>
+  
+  <author>
+    <name>Nguyen Anh</name>
+    <uri></uri>
+    <email>cauut2117610@gmail.com</email>
+  </author>
+  <content type="html">
+    &lt;h3 id=&quot;pattern-singleton-l-g&quot;&gt;Pattern Singleton là gì?&lt;/h3&gt;
+
+&lt;p&gt;Mẫu thiết kế Singleton đảm bảo rằng một lớp chỉ có một thể hiện (instance) duy nhất. Do thể hiện này có tiềm năng sử dụng trong suốt chương trình, nên mẫu thiết kế Singleton cũng cung cấp một điểm truy cập toàn cục đến nó.&lt;/p&gt;
+
+&lt;h3 id=&quot;pattern-singleton-c-s-dng-trong-trng-hp-no&quot;&gt;Pattern Singleton được sử dụng trong trường hợp nào?&lt;/h3&gt;
+
+&lt;p&gt;Khi bạn tạo ra một class mà bạn chỉ muốn chỉ có duy nhất một thực thể là thể hiện của class đó và bạn có thể truy cập đến nó ở bất kỳ nơi đâu khi bạn muốn. Ví dụ:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Làm việc với log file.&lt;/li&gt;
+  &lt;li&gt;Config cho toàn bộ dự án.&lt;/li&gt;
+  &lt;li&gt;Kết nối với Database.&lt;/li&gt;
+  &lt;li&gt;…&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;cch-ci-t&quot;&gt;Cách cài đặt.&lt;/h3&gt;
+
+&lt;p&gt;``` ruby&lt;/p&gt;
+
+&lt;h1 id=&quot;singletonsingletonsetuprb&quot;&gt;singleton/singleton_setup.rb&lt;/h1&gt;
+&lt;p&gt;class Database
+  attr_accessor :connecting&lt;/p&gt;
+
+&lt;p&gt;@@instance = Database.new&lt;/p&gt;
+
+&lt;p&gt;def self.instance
+    @@instance
+  end&lt;/p&gt;
+
+&lt;p&gt;private_class_method :new
+end
+```&lt;/p&gt;
+
+&lt;p&gt;``` ruby&lt;/p&gt;
+
+&lt;h1 id=&quot;irb&quot;&gt;irb&lt;/h1&gt;
+&lt;p&gt;2.2.3 :001 &amp;gt; load ‘singleton/singleton_setup.rb’
+ =&amp;gt; true 
+2.2.3 :002 &amp;gt; Database.instance.connecting = ‘mysql’
+ =&amp;gt; “mysql” 
+2.2.3 :003 &amp;gt; first = Database.instance
+ =&amp;gt; #&amp;lt;Database:0x007feed305a680 @connecting=”mysql”&amp;gt; 
+2.2.3 :004 &amp;gt; first.connecting = ‘mongodb’
+ =&amp;gt; “mongodb” 
+2.2.3 :005 &amp;gt; Database.instance.connecting
+ =&amp;gt; “mongodb” 
+2.2.3 :006 &amp;gt; 
+```
+Qua việc chạy trên cho thấy chỉ một instance được tao ra thông qua việc gọi class method instance và được sử dụng global.&lt;/p&gt;
+
+&lt;h3 id=&quot;s-dng-singleton-module-ca-ruby&quot;&gt;Sử dụng Singleton module của Ruby.&lt;/h3&gt;
+
+&lt;p&gt;Trong Ruby đã hỗ trợ cho chúng ta Singleton Patttern đó là Singeleton module. Để tối giản công việc trên chúng ta chỉ cần sử dụng nó.&lt;/p&gt;
+
+&lt;p&gt;``` ruby&lt;/p&gt;
+
+&lt;h1 id=&quot;singletonsingletonmoudlerb&quot;&gt;singleton/singleton_moudle.rb&lt;/h1&gt;
+&lt;p&gt;require ‘singleton’&lt;/p&gt;
+
+&lt;p&gt;class Database
+  include Singleton&lt;/p&gt;
+
+&lt;p&gt;attr_accessor :connecting
+end&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+2.2.3 :002 &amp;gt; load &#39;singleton/singleton_module.rb&#39;
+ =&amp;gt; true 
+2.2.3 :003 &amp;gt; Database.instance.connecting = &#39;mysql&#39;
+ =&amp;gt; &quot;mysql&quot; 
+2.2.3 :004 &amp;gt; second = Database.instance
+ =&amp;gt; #&amp;lt;Database:0x007fac3b09f788 @connecting=&quot;mysql&quot;&amp;gt; 
+2.2.3 :005 &amp;gt; second = Database.instance.connecting = &#39;postgresql&#39;
+ =&amp;gt; &quot;postgresql&quot; 
+2.2.3 :006 &amp;gt; Database.instance.connecting
+ =&amp;gt; &quot;postgresql&quot; 
+2.2.3 :007 &amp;gt; 
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/Nguyenanh/design-pattern&quot;&gt;Source&lt;/a&gt;&lt;/p&gt;
+
+
+    &lt;p&gt;&lt;a href=&quot;/2016/05/01/singleton-pattern-trong-ruby&quot;&gt;Singleton - Design Pattern trong Ruby&lt;/a&gt; was originally published by Nguyen Anh at &lt;a href=&quot;&quot;&gt;NguyenAnh Dev Blog&lt;/a&gt; on May 01, 2016.&lt;/p&gt;
+  </content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5]]></title>
+  <link rel="alternate" type="text/html" href="/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon" />
+  <id>/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon</id>
+  <updated>2016-03-28T00:00:00-00:00</updated>
+  <published>2016-04-13T00:00:00-03:00</published>
+  
+  <author>
+    <name>Nguyen Anh</name>
+    <uri></uri>
+    <email>cauut2117610@gmail.com</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;Với dữ liệu data lớn khi chúng ta query thì sẽ gập một số vấn đề như tốn bộ nhớ nhiều. Dưới đây là một ví dụ:&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+» Post.published.count
+=&amp;gt; 25000&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;Post.where(published: true).each do |post|
+     post.archive!
+   end&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;loads-25000-posts-in-memory&quot;&gt;Loads 25000 posts in memory&lt;/h1&gt;
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;p&gt;Để giảm bớt vấn để ở trên thì từ &lt;code class=&quot;highlighter-rouge&quot;&gt;Rails 5&lt;/code&gt; đã hỗ thêm đã thêm một tính năng&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;config.active_record.warn_on_records_fetched_greater_than&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;nhằm tạo lời cảnh báo.&lt;/p&gt;
+
+&lt;p&gt;Khi chúng ta config với một giá trị nguyên, bất kỳ một câu query nào trả về số record lớn hơn số gới hạn được set, thì log ra một lời cảnh báo.&lt;/p&gt;
+
+&lt;p&gt;```ruby
+config.active_record.warn_on_records_fetched_greater_than = 1500&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;Post.where(published: true).each do |post|
+     post.archive!
+   end&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;=&amp;gt; Query fetched 25000 Post records: SELECT “posts”.* FROM “posts” WHERE “posts”.”published” = ? [[“published”, true]]
+   [#&amp;lt;Post id: 1, title: ‘Rails’, user_id: 1, created_at: “2016-02-11 11:32:32”, updated_at: “2016-02-11 11:32:32”, published: true&amp;gt;, #&amp;lt;Post id: 2, title: ‘Ruby’, user_id: 2, created_at: “2016-02-11 11:36:05”, updated_at: “2016-02-11 11:36:05”, published: true&amp;gt;,….]&lt;/p&gt;
+
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;p&gt;Với tính năng này sẽ giúp chúng ta tìm ra những những câu query không hiệu quả và tìm ra một giải pháp nào đó tốt hơn.&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+config.active_record.warn_on_records_fetched_greater_than = 1500&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;blockquote&gt;
+    &lt;p&gt;Post.where(published: true).find_each do |post|
+     post.archive!
+   end&lt;/p&gt;
+  &lt;/blockquote&gt;
+&lt;/blockquote&gt;
+
+&lt;h1 id=&quot;no-warning-is-logged&quot;&gt;No warning is logged&lt;/h1&gt;
+&lt;p&gt;```&lt;/p&gt;
+
+&lt;p&gt;Nguồn: &lt;a href=&quot;http://blog.bigbinary.com/2016/04/13/rails-5-adds-option-to-log-warning-when-fetching-big-result-sets.html&quot;&gt;http://blog.bigbinary.com/2016/04/13/rails-5-adds-option-to-log-warning-when-fetching-big-result-sets.html&lt;/a&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon&quot;&gt;Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5&lt;/a&gt; was originally published by Nguyen Anh at &lt;a href=&quot;&quot;&gt;NguyenAnh Dev Blog&lt;/a&gt; on April 13, 2016.&lt;/p&gt;
+  </content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Từng bước để xây dựng một Ruby Gem]]></title>
+  <link rel="alternate" type="text/html" href="/2016/04/10/tung-buoc-xay-dung-mot-ruby-gem" />
+  <id>/2016/04/10/tung-buoc-xay-dung-mot-ruby-gem</id>
+  <updated>2016-03-28T00:00:00-00:00</updated>
+  <published>2016-04-10T00:00:00-03:00</published>
+  
+  <author>
+    <name>Nguyen Anh</name>
+    <uri></uri>
+    <email>cauut2117610@gmail.com</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;Bài viết này chúng sẽ không đi sâu vào lý thuyết, thay vào đó sẽ sẽ hướng dẫn các bạn bước từng bước để tạo ra một &lt;code class=&quot;highlighter-rouge&quot;&gt;gem&lt;/code&gt; đơn giản nhất có thể chính là tạo ra helper in ra dòng &lt;code class=&quot;highlighter-rouge&quot;&gt;Hello Word&lt;/code&gt;. Nghe thôi thấy cũng đơn giản rồi :D. Bắt đầu thôi.&lt;/p&gt;
+
+&lt;h2 id=&quot;i-xy-dng-gem&quot;&gt;I: Xây dựng Gem&lt;/h2&gt;
+
+&lt;h4 id=&quot;bc-1-to-cu-trc-ca-gem&quot;&gt;Bước 1: Tạo cấu trúc của &lt;code class=&quot;highlighter-rouge&quot;&gt;gem&lt;/code&gt;&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+bundle gem helloword-rails
+&lt;/code&gt;
+Chúng ta sẽ được cấu trúc như này sau khi chạy lệnh trên.&lt;/p&gt;
+&lt;figure&gt;
+	&lt;img src=&quot;https://cloud.githubusercontent.com/assets/7424863/14407550/b8d384a2-fef7-11e5-82af-1bb2a7cbc944.png&quot; /&gt;
+&lt;/figure&gt;
+
+&lt;h4 id=&quot;bc-2-to-mt-file-helper-hellowordhelperrb&quot;&gt;Bước 2: Tạo một file helper &lt;code class=&quot;highlighter-rouge&quot;&gt;helloword_helper.rb&lt;/code&gt;&lt;/h4&gt;
+
+&lt;p&gt;Tiếp theo tạo ra một file helper đặt trong thư mục &lt;code class=&quot;highlighter-rouge&quot;&gt;lib/helloword/rails&lt;/code&gt; bằng cách chạy 2 dòng lệnh dưới đây.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+cd helloword-rails/
+touch lib/helloword/rails/helloword_helper.rb
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;bc-3-to-ra-mt-phng-thc-ca-helper--in-ra-dng-hello-word&quot;&gt;Bước 3: Tạo ra một phương thức của helper để in ra dòng hello word&lt;/h4&gt;
+
+&lt;p&gt;Mở file &lt;code class=&quot;highlighter-rouge&quot;&gt;helloword_helper.rb&lt;/code&gt; và thêm nhưng dòng code dưới dây vào.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+# lib/helloword/rails/helloword_helper.rb
+module HellowordHelper
+  def hello_word_tag
+    &quot;Hello Word!!!&quot;
+  end
+end
+&lt;/code&gt;
+#### Bước 4: Khai báo helper của chúng ta vào rails&lt;/p&gt;
+
+&lt;p&gt;Khao báo helper của chúng ta vào &lt;code class=&quot;highlighter-rouge&quot;&gt;ActionView::Helpers::AssetTagHelper&lt;/code&gt; để Rails có thể biết và thực thi nó.&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+# lib/helloword/rails.rb
+require “helloword/rails/version”
+require “helloword/rails/helloword_helper”&lt;/p&gt;
+
+&lt;p&gt;module ActionView
+  module Helpers
+    module AssetTagHelper
+      include HellowordHelper
+    end
+  end
+end
+```
+#### Bước 5: Tạo một ứng dụng Rails để test gem.&lt;/p&gt;
+
+&lt;p&gt;Chạy lệnh sau để tạo mới ứng dụng rails.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+# terminal
+rails new helloword-rails-app
+cd helloword-rails-app
+rails generate controller site index
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;bc-6-thm-gem-ca-chng-ta-vo-gemfile&quot;&gt;Bước 6: Thêm gem của chúng ta vào &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt;&lt;/h4&gt;
+
+&lt;p&gt;Trong file view &lt;code class=&quot;highlighter-rouge&quot;&gt;index.html.erb&lt;/code&gt; và thêm helper của chúng ta vào.&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+#view/site/index.html.erb&lt;/p&gt;
+&lt;h1&gt;&amp;lt;%= hello_word_tag %&amp;gt;&lt;/h1&gt;
+
+&lt;p&gt;```
+Mở &lt;code class=&quot;highlighter-rouge&quot;&gt;Gemfile&lt;/code&gt; và thêm dòng&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+# Gemfile
+gem &#39;helloword-rails&#39;, &#39;0.1.0&#39;, path: &#39;/Users/admin/Project-Ruby/helloword-rails/&#39;
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Trong đó &lt;code class=&quot;highlighter-rouge&quot;&gt;path&lt;/code&gt; là đường dẫn chưa source gem của tôi và bạn sẽ thay vào đó đường dẫn của bạn.
+Cuối cũng chạy lệnh &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt; và &lt;code class=&quot;highlighter-rouge&quot;&gt;rails s&lt;/code&gt;, sau đó truy cập &lt;a href=&quot;http://localhost:3000/site/index&quot;&gt;http://localhost:3000/site/index&lt;/a&gt;&lt;/p&gt;
+&lt;figure&gt;
+	&lt;img src=&quot;https://cloud.githubusercontent.com/assets/7424863/14407815/663ffd2a-ff00-11e5-818c-2e6716c65e45.png&quot; /&gt;
+&lt;/figure&gt;
+&lt;p&gt;Quá đơn giản !!!!&lt;/p&gt;
+
+&lt;h2 id=&quot;ii-public-gem-ln-trang-ch&quot;&gt;II: Public gem lên trang chủ.&lt;/h2&gt;
+
+&lt;p&gt;Thay đổi một số thông tin trong &lt;code class=&quot;highlighter-rouge&quot;&gt;helloword-rails.gemspec&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+# coding: utf-8
+lib = File.expand_path(‘../lib’, &lt;strong&gt;FILE&lt;/strong&gt;)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require ‘helloword/rails/version’&lt;/p&gt;
+
+&lt;p&gt;Gem::Specification.new do |spec|
+  spec.name          = “helloword-rails”
+  spec.version       = Helloword::Rails::VERSION
+  spec.authors       = “Nguyen Anh”
+  spec.email         = “cauut2117610@gmail.com”&lt;/p&gt;
+
+&lt;p&gt;spec.summary       = %q{Write a short summary, because Rubygems requires one.}
+  spec.description   = %q{Write a longer description or delete this line.}
+  spec.homepage      = “https://github.com/Nguyenanh/helloword-rails”
+  spec.license       = “MIT”&lt;/p&gt;
+
+&lt;p&gt;spec.files         = &lt;code class=&quot;highlighter-rouge&quot;&gt;git ls-files -z&lt;/code&gt;.split(“\x0”).reject { |f| f.match(%r{^(test|spec|features)/}) }
+  spec.bindir        = “exe”
+  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.require_paths = [“lib”]&lt;/p&gt;
+
+&lt;p&gt;spec.add_development_dependency “bundler”, “~&amp;gt; 1.11”
+  spec.add_development_dependency “rake”, “~&amp;gt; 10.0”
+  spec.add_development_dependency ‘rspec’
+end
+```
+Build gem của chúng ta với lệnh.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+#terminal
+rake build
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Sau khi build thành công chúng ta được file &lt;code class=&quot;highlighter-rouge&quot;&gt;pkg/helloword-rails-0.1.0.gem&lt;/code&gt;.
+Cuối cùng đưa gem lên trang chủ &lt;a href=&quot;https://rubygems.org&quot;&gt;https://rubygems.org&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+#terminal
+gem push pkg/helloword-rails-0.1.0.gem
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Sau đó chúng ta có thể dùng &lt;code class=&quot;highlighter-rouge&quot;&gt;helloword-rails&lt;/code&gt; một cách bình thường.&lt;/p&gt;
+
+&lt;p&gt;Quá đơn giản!!!.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/Nguyenanh/helloword-rails&quot;&gt;helloword-rails&lt;/a&gt;&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/2016/04/10/tung-buoc-xay-dung-mot-ruby-gem&quot;&gt;Từng bước để xây dựng một Ruby Gem&lt;/a&gt; was originally published by Nguyen Anh at &lt;a href=&quot;&quot;&gt;NguyenAnh Dev Blog&lt;/a&gt; on April 10, 2016.&lt;/p&gt;
+  </content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx]]></title>
+  <link rel="alternate" type="text/html" href="/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx" />
+  <id>/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx</id>
+  <updated>2016-03-28T00:00:00-00:00</updated>
+  <published>2016-03-28T00:00:00-03:00</published>
+  
+  <author>
+    <name>Nguyen Anh</name>
+    <uri></uri>
+    <email>cauut2117610@gmail.com</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Deploy&lt;/code&gt; là quá trình đưa source code bạn lên server sau khi bạn đã phát triển xong và chuẩn bị giao cho khách hàng. Đây là một công đoạn có phải nói các developer nào cũng phát biết trong con đường sự ngiệp của mình.&lt;/p&gt;
+
+&lt;p&gt;Tuy nhiên công việc deploy không phải lúc nào cũng diễn ra xuôi sẻ và không phải lúc nào cũng giống nhau. Nó cũng phụ thuộc vào nhiều yếu tố khác nhau&lt;/p&gt;
+
+&lt;p&gt;Bài viết này mình sẽ hưỡng dẫn cấu hình để deploy một dự án Rails dùng capistrano, unicorn và nginx lên server Ubuntu 14.04.&lt;/p&gt;
+
+&lt;p&gt;Trước khi bắt đầu, hãy chắc chắn là server của bạn đã cài đặt một số thứ như sau:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Ruby&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Git&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Nginx&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Một dự án ROR ở local&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;chin-thi-&quot;&gt;Chiến thôi !!&lt;/h2&gt;
+&lt;p&gt;1.Add thêm một số &lt;code class=&quot;highlighter-rouge&quot;&gt;gem&lt;/code&gt; vào Gemfile và chạy &lt;code class=&quot;highlighter-rouge&quot;&gt;bundle íntall&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+#Gemfile
+gem &#39;capistrano&#39;
+gem &#39;capistrano-rails&#39;
+gem &#39;capistrano-bundler&#39;
+gem &#39;capistrano-unicorn-nginx&#39;
+gem &#39;unicorn&#39;
+gem &#39;capistrano-rvm&#39;
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;2.Sau khi đã cài một số &lt;code class=&quot;highlighter-rouge&quot;&gt;gem&lt;/code&gt; xong tiếp tục tạo ra những file config capistrano chạy lệnh sau:&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;$ bundle exec cap install&lt;/code&gt;
+Lệnh trên sẽ tạo cấu trúc file như sau.&lt;/p&gt;
+
+&lt;p&gt;├── Capfile
+├── config
+│   ├── deploy
+│   │   ├── production.rb
+│   │   └── staging.rb
+│   └── deploy.rb
+└── lib
+    └── capistrano
+            └── tasks
+3. Require thêm một số gói vào &lt;code class=&quot;highlighter-rouge&quot;&gt;Capfile&lt;/code&gt; và &lt;code class=&quot;highlighter-rouge&quot;&gt;Capfile&lt;/code&gt; của bạn sẽ trông như thế này.&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+#Capfile
+# Load DSL and set up stages
+require ‘capistrano/setup’&lt;/p&gt;
+
+&lt;h1 id=&quot;include-default-deployment-tasks&quot;&gt;Include default deployment tasks&lt;/h1&gt;
+&lt;p&gt;require ‘capistrano/deploy’&lt;/p&gt;
+
+&lt;p&gt;require ‘capistrano/rvm’
+require ‘capistrano/bundler’
+require ‘capistrano/rails’
+require ‘capistrano/unicorn_nginx’
+# Load custom tasks from `lib/capistrano/tasks’ if you have any defined&lt;/p&gt;
+
+&lt;p&gt;Dir.glob(‘lib/capistrano/tasks/*.rake’).each { |r| import r }
+```&lt;/p&gt;
+
+&lt;p&gt;4.Tiếp theo cấu hình cho &lt;code class=&quot;highlighter-rouge&quot;&gt;deploy.rb&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+#config/deploy.rb
+#Tên ứng dụng của bạn ở đây mình đặt tên Appdeploy
+set :application, ‘Appdeploy’
+#Repository của bạn
+set :repo_url, ‘https://github.com/Nguyenanh/Blog.git’
+#Đường dãn chứa source trên server sau khi deploy
+set :deploy_to, ‘/home/anhn/Appdeploy’
+set :scm, :git&lt;/p&gt;
+
+&lt;p&gt;```
+5.Vậy là ta thiết lập những cấu hình chung để &lt;code class=&quot;highlighter-rouge&quot;&gt;deploy&lt;/code&gt;. Giờ tùy vào từng môi trường ta sẽ thiết lập riêng. Bài viết này mình sẽ thiết lập trên môi trường &lt;code class=&quot;highlighter-rouge&quot;&gt;production&lt;/code&gt;. Mở file &lt;code class=&quot;highlighter-rouge&quot;&gt;production.rb&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;```ruby
+#config/deploy/production.rb
+#Set user và và server_name của bạn
+set :user, ‘anhn’
+set :server_name, ‘1.2.3.4’
+#Set branch trên Git mà bạn muốn deploy
+set :branch, ‘master’
+#Set môi trường, ở đây mình thiết lâp cho môi trường production
+set :rails_env, ‘production’
+set :bundle_flags, “–no-deployment”&lt;/p&gt;
+
+&lt;p&gt;role :app, [”#{fetch(deploy_user)}@#{fetch(server_name)}”]
+role :web, [”#{fetch(deploy_user)}@#{fetch(server_name)}”]
+role :db,  [”#{fetch(deploy_user)}@#{fetch(server_name)}”]&lt;/p&gt;
+
+&lt;p&gt;server fetch(server_name), user: fetch(deploy_user), roles: %w{web app db}, primary: true&lt;/p&gt;
+
+&lt;p&gt;```
+Trường hợp server của bạn bắt authentication bằng &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh&lt;/code&gt; thì bạn thêm tùy chọn &lt;code class=&quot;highlighter-rouge&quot;&gt;ssh_option&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+#config/deploy/production.rb
+#home/anhn/.ssh/appdeploy.pem là đường dẫn mà mình dùng `.pem` để xác thực
+set :ssh_options, {
+  keys: %w(/home/anhn/.ssh/appdeploy.pem),
+  forward_agent: false,
+ }
+&lt;/code&gt;
+6.Vậy là xong quá trình config cho quá trình &lt;code class=&quot;highlighter-rouge&quot;&gt;deploy&lt;/code&gt;. Việc cuối cùng là kêu thằng capistrano đưa source lên server.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+$ bundle exec cap setup
+&lt;/code&gt;
+Lệnh này sẽ bảo &lt;code class=&quot;highlighter-rouge&quot;&gt;cap&lt;/code&gt; khỏi tạo cấu trúc đường dẫn cũng như file config &lt;code class=&quot;highlighter-rouge&quot;&gt;nginx&lt;/code&gt; cho quá trình deploy.
+&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby 
+$ bundle exec cap production deploy
+&lt;/code&gt;
+Tiếp theo kêu cap deploy code lên server với môi trường production. Việc còn lại là ngồi rung đùi. Khi quay trở lại quá trình deploy hoàn tất.&lt;/p&gt;
+
+&lt;h3 id=&quot;kt-lun&quot;&gt;Kết luận&lt;/h3&gt;
+&lt;p&gt;Bài viết này xin nhấn mạnh thiết lập các cấu hình để deploy một dự án Rails lên server. Và đây chỉ là single server. Ở những bài viết sau mình sẽ hướng dẫn deploy trên HDH CentOS hoặc deploy với cấu trúc server NAT.&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx&quot;&gt;Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx&lt;/a&gt; was originally published by Nguyen Anh at &lt;a href=&quot;&quot;&gt;NguyenAnh Dev Blog&lt;/a&gt; on March 28, 2016.&lt;/p&gt;
+  </content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Lý do không tạo được record khi khai báo belongs_to trong Rails 5]]></title>
+  <link rel="alternate" type="text/html" href="/2016/02/20/khong-tao-duoc-du-lieu-belongs-to-trong-rails-5" />
+  <id>/2016/02/20/khong-tao-duoc-du-lieu-belongs-to-trong-rails-5</id>
+  <updated>2016-02-20T00:00:00-00:00</updated>
+  <published>2016-02-20T00:00:00-03:00</published>
+  
+  <author>
+    <name>Nguyen Anh</name>
+    <uri></uri>
+    <email>cauut2117610@gmail.com</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;Trong Rails 5. Bất cứ khi nào chúng ta định nghĩa một quan hệ &lt;code class=&quot;highlighter-rouge&quot;&gt;belongs_to&lt;/code&gt;. Thì nó bắt buộc chúng ta cung cấp một đối tượng quan hệ với nó.&lt;/p&gt;
+
+&lt;p&gt;Rails sẽ tiến hành validation lỗi nếu đối tượng quan hệ không tồn tại&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+class User &amp;lt; ApplicationRecord
+end
+class Post &amp;lt; ApplicationRecord
+    belongs_to :user
+end&lt;/p&gt;
+
+&lt;p&gt;post = Post.create(title: ‘Hi’)
+ =&amp;gt; &amp;lt;Post id: nil, title: “Hi”, user_id: nil, created_at: nil, updated_at: nil&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;post.errors.full_messages.to_sentence
+ =&amp;gt; “User must exist”
+```&lt;/p&gt;
+
+&lt;p&gt;Như chúng ta có thể thấy, chúng ta không thể tạo bất kỳ một &lt;code class=&quot;highlighter-rouge&quot;&gt;post&lt;/code&gt; nào nếu không có một quan hệ &lt;code class=&quot;highlighter-rouge&quot;&gt;user&lt;/code&gt; nào&lt;/p&gt;
+
+&lt;h3 id=&quot;lm-th-no--gii-quyt-c-iu-ny-trong-rails-5&quot;&gt;Làm thế nào để giải quyết được điều này trong Rails 5&lt;/h3&gt;
+&lt;p&gt;Trong Rails 4.x để thêm validation cho &lt;code class=&quot;highlighter-rouge&quot;&gt;belongs_to&lt;/code&gt; chúng ta chỉ cần thêm tùy chọn &lt;code class=&quot;highlighter-rouge&quot;&gt;required: true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+class User &amp;lt; ApplicationRecord
+end&lt;/p&gt;
+
+&lt;p&gt;class Post &amp;lt; ApplicationRecord
+  belongs_to :user, required: true
+end&lt;/p&gt;
+
+&lt;p&gt;post = Post.create(title: ‘Hi’)
+=&amp;gt; &amp;lt;Post id: nil, title: “Hi”, user_id: nil, created_at: nil, updated_at: nil&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;post.errors.full_messages.to_sentence
+=&amp;gt; “User must exist”
+```
+Mặc định trong Rails 4.x tùy chọn &lt;code class=&quot;highlighter-rouge&quot;&gt;required&lt;/code&gt; là &lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Để bỏ qua validation &lt;code class=&quot;highlighter-rouge&quot;&gt;belongs_to&lt;/code&gt; trong Rails 5. Chúng ta chỉ cần thêm tùy chọn &lt;code class=&quot;highlighter-rouge&quot;&gt;optional: true&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+class Post &amp;lt; ApplicationRecord
+  belongs_to :user, optional: true
+end&lt;/p&gt;
+
+&lt;p&gt;post = Post.create(title: ‘Hi’)
+=&amp;gt; &amp;lt;Post id: 2, title: “Hi”, user_id: nil&amp;gt;
+```&lt;/p&gt;
+
+&lt;p&gt;Với thêm tùy chọn ở trên thì validation sẽ bỏ qua với class  &lt;code class=&quot;highlighter-rouge&quot;&gt;Post&lt;/code&gt; và tất cả model còn lại sẽ vẫn bị validation.
+### Bỏ qua validation cho toàn bộ model trong Rails 5.
+Mặc định Rails 5 setting validation cho toàn bộ model&lt;/p&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;ruby
+Rails.application.config.active_record.belongs_to_required_by_default = true.
+&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;Để bỏ validation chúng ta cần seting lại giá trị sang &lt;code class=&quot;highlighter-rouge&quot;&gt;false&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;``` ruby
+Rails.application.config.active_record.belongs_to_required_by_default = false&lt;/p&gt;
+
+&lt;p&gt;class Post &amp;lt; ApplicationRecord
+  belongs_to :user
+end&lt;/p&gt;
+
+&lt;p&gt;post = Post.create(title: ‘Hi’)
+=&amp;gt; &amp;lt;Post id: 3, title: “Hi”, user_id: nil, created_at: “2016-02-11 12:36:05”, updated_at: “2016-02-11 12:36:05”&amp;gt;
+```&lt;/p&gt;
+
+&lt;p&gt;Nguồn: http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html&lt;/p&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/2016/02/20/khong-tao-duoc-du-lieu-belongs-to-trong-rails-5&quot;&gt;Lý do không tạo được record khi khai báo belongs_to trong Rails 5&lt;/a&gt; was originally published by Nguyen Anh at &lt;a href=&quot;&quot;&gt;NguyenAnh Dev Blog&lt;/a&gt; on February 20, 2016.&lt;/p&gt;
+  </content>
+</entry>
+
+
+<entry>
+  <title type="html"><![CDATA[Giảm N+1 Query khi count record dữ liệu quan hệ]]></title>
+  <link rel="alternate" type="text/html" href="/2015/07/28/Giam-N-1-Query-khi-count-record-du-lieu-quan-he" />
+  <id>/2015/07/28/Giam-N-1-Query-khi-count-record-du-lieu-quan-he</id>
+  <updated>2015-07-28T00:00:00-00:00</updated>
+  <published>2015-07-28T00:00:00-03:00</published>
+  
+  <author>
+    <name>Nguyen Anh</name>
+    <uri></uri>
+    <email>cauut2117610@gmail.com</email>
+  </author>
+  <content type="html">
+    &lt;p&gt;Trong Rails đã hỗ trợ một method includes dùng để hổ trợ việc giảm N+1 query trong truy vấn cơ sở dữ liệu quan hệ. Như vậy ở đây mình đặt ra một bài toán như sau.
+Mình có table &lt;code class=&quot;highlighter-rouge&quot;&gt;categories&lt;/code&gt;  has_many với table &lt;code class=&quot;highlighter-rouge&quot;&gt;posts&lt;/code&gt; và mình muốn lấy list categories và count các bài post tương ứng của category đó thì mình làm như sau:&lt;/p&gt;
+
+&lt;p&gt;```ruby
+#  Controller
+class CategoryController &amp;lt; ApplicationController
+  def index
+    categories = Category.all
+  end
+end
+# View
+&amp;lt;% @categories.each do |category| %&amp;gt;&lt;/p&gt;
+&lt;h1&gt;&amp;lt;%= category.name %&amp;gt;(&amp;lt;%= category.posts.count %&amp;gt;)&lt;h1&gt;
+&amp;lt;% end %&amp;gt;
+```
+Nhìn vào console bạn sẽ thấy như sau:
+
+&amp;gt;Category Load (0.1ms)  SELECT `categories`.* FROM `categories`
+   (0.2ms)  SELECT COUNT(*) FROM `posts` WHERE `posts`.`category_id` = 2
+   (0.3ms)  SELECT COUNT(*) FROM `posts` WHERE `posts`.`category_id` = 3
+   (0.2ms)  SELECT COUNT(*) FROM `posts` WHERE `posts`.`category_id` = 4
+
+3 câu lệnh SELECT count được thực hiện.  Điều này sẽ ảnh hưởng đến tốc độ truy vấn dữ liệu khi hệ thống dữ liệu lớn. Để giải quyết vấn đề này mình xin hướng dãn 2 cách 
+## 1. Tạo một câu query
+Mình tạo một cái scope với dòng query như sau:
+
+``` ruby
+# Model
+class Category &amp;lt; ActiveRecord::Base
+  has_many :posts
+  scope :with_count_posts, -&amp;gt; {joins(:posts).select(&quot;categories.* ,Count(posts.id) AS posts_count&quot;).group(&quot;categories.id&quot;)}
+end
+
+# Controller
+class CategoryController &amp;lt; ApplicationController
+  def index
+    @categories = Category.with_count_posts
+  end
+end
+
+# View
+&amp;lt;% @categories.each do |category| %&amp;gt;
+  &lt;h1&gt;&amp;lt;%= category.name %&amp;gt;(&amp;lt;%= category.posts_count %&amp;gt;)&lt;h1&gt;
+&amp;lt;% end %&amp;gt;
+```
+
+Nhìn vào console bạn sẽ thấy sự khác biệt
+&amp;gt;Category Load (0.1ms)  SELECT categories.* ,Count(posts.id) AS posts_count FROM `categories` INNER JOIN `posts` ON `posts`.`category_id` = `categories`.`id` GROUP BY categories.id
+
+Nó chỉ cần chạy một truy vấn sơ với ban đầu. Dòng trên có ý nghĩa là khi khi mình lấy hết dữ của bảng categories mình sẽ tạo thêm 1 field là `posts_count` để chứa toàn bộ tổng số những record posts tương ứng với category đó.
+
+------------------------------------------------------------
+###  Lưu ý
+ `scope` ở trên sẽ không lấy ra những category không có record `posts`  nào. Nếu muốn lấy hết thì bạn có thể tạo một `scope` như dưới đây.
+ 
+``` ruby
+  scope :with_count_posts, -&amp;gt; {joins(&quot;LEFT JOIN posts ON categories.id = posts.category_id&quot;).select(&quot;categories.* ,Count(posts.id) AS posts_count&quot;).group(&quot;categories.id&quot;)}
+```  
+-------------------------------------------------------------
+
+## 2. Dùng `Gem`
+Ở đây mình xin giới thiệu 2 `gem` là [includes-count](https://github.com/manastech/includes-count) và [dase](https://github.com/vovayartsev/dase)
+Các bạn có thể vào 2 link trên để tìm hiểu cách sử dụng
+
+---------------------------
+Trên đây là một bài viết chia sẽ của mình để giảm tốc độ truy vấn khi muốn lấy count record quan hệ. Chúc các bạn thành công.
+*Nguyen Anh*
+&lt;/h1&gt;&lt;/h1&gt;&lt;/h1&gt;&lt;/h1&gt;
+
+    &lt;p&gt;&lt;a href=&quot;/2015/07/28/Giam-N-1-Query-khi-count-record-du-lieu-quan-he&quot;&gt;Giảm N+1 Query khi count record dữ liệu quan hệ&lt;/a&gt; was originally published by Nguyen Anh at &lt;a href=&quot;&quot;&gt;NguyenAnh Dev Blog&lt;/a&gt; on July 28, 2015.&lt;/p&gt;
+  </content>
+</entry>
+
+</feed>

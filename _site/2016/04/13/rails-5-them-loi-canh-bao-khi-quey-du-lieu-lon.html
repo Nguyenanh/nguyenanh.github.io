@@ -1,0 +1,265 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5 &#8211; NguyenAnh Dev Blog</title>
+<meta name="description" content="Với dữ liệu data lớn khi chúng ta query thì sẽ gập một số vấn đề như tốn bộ nhớ nhiều. Dưới đây là một ví dụ.">
+<meta name="keywords" content="ruby, query, rails, warning">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5">
+<meta name="twitter:description" content="Với dữ liệu data lớn khi chúng ta query thì sẽ gập một số vấn đề như tốn bộ nhớ nhiều. Dưới đây là một ví dụ.">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/default-thumb.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5">
+<meta property="og:description" content="Với dữ liệu data lớn khi chúng ta query thì sẽ gập một số vấn đề như tốn bộ nhớ nhiều. Dưới đây là một ví dụ.">
+<meta property="og:url" content="/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon">
+<meta property="og:site_name" content="NguyenAnh Dev Blog">
+
+<meta property="og:image" content="/images/default-thumb.png">
+
+
+
+
+
+
+<link rel="canonical" href="/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="NguyenAnh Dev Blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">NguyenAnh Dev Blog</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav id="site-nav" class="nav">
+		    <ul>
+		        
+				    
+				    <li><a href="/about/" >About</a></li>
+				
+				    
+				    <li><a href="/posts/" >All Post</a></li>
+				
+				    
+				    <li><a href="/theme-setup/" >Theme Setup</a></li>
+				
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+<div itemscope itemtype="http://schema.org/Person">
+
+
+	<img src="/images/bio-photo.jpeg" class="bio-photo" alt="Nguyen Anh bio photo">
+
+
+  <h3 itemprop="name">Nguyen Anh</h3>
+  <p>A VietNam web developer</p>
+  <a href="mailto:cauut2117610@gmail.com" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+  
+  <a href="http://facebook.com/anh.nguyen21176" class="author-social" target="_blank"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a>
+  
+  
+  
+  
+  
+  <a href="http://github.com/Nguyenanh" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</div>
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon" rel="bookmark" title="Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5">Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <p>Với dữ liệu data lớn khi chúng ta query thì sẽ gập một số vấn đề như tốn bộ nhớ nhiều. Dưới đây là một ví dụ:</p>
+
+<p>``` ruby
+» Post.published.count
+=&gt; 25000</p>
+
+<blockquote>
+  <blockquote>
+    <p>Post.where(published: true).each do |post|
+     post.archive!
+   end</p>
+  </blockquote>
+</blockquote>
+
+<h1 id="loads-25000-posts-in-memory">Loads 25000 posts in memory</h1>
+<p>```</p>
+
+<p>Để giảm bớt vấn để ở trên thì từ <code class="highlighter-rouge">Rails 5</code> đã hỗ thêm đã thêm một tính năng</p>
+
+<p><code class="highlighter-rouge">config.active_record.warn_on_records_fetched_greater_than</code></p>
+
+<p>nhằm tạo lời cảnh báo.</p>
+
+<p>Khi chúng ta config với một giá trị nguyên, bất kỳ một câu query nào trả về số record lớn hơn số gới hạn được set, thì log ra một lời cảnh báo.</p>
+
+<p>```ruby
+config.active_record.warn_on_records_fetched_greater_than = 1500</p>
+
+<blockquote>
+  <blockquote>
+    <p>Post.where(published: true).each do |post|
+     post.archive!
+   end</p>
+  </blockquote>
+</blockquote>
+
+<p>=&gt; Query fetched 25000 Post records: SELECT “posts”.* FROM “posts” WHERE “posts”.”published” = ? [[“published”, true]]
+   [#&lt;Post id: 1, title: ‘Rails’, user_id: 1, created_at: “2016-02-11 11:32:32”, updated_at: “2016-02-11 11:32:32”, published: true&gt;, #&lt;Post id: 2, title: ‘Ruby’, user_id: 2, created_at: “2016-02-11 11:36:05”, updated_at: “2016-02-11 11:36:05”, published: true&gt;,….]</p>
+
+<p>```</p>
+
+<p>Với tính năng này sẽ giúp chúng ta tìm ra những những câu query không hiệu quả và tìm ra một giải pháp nào đó tốt hơn.</p>
+
+<p>``` ruby
+config.active_record.warn_on_records_fetched_greater_than = 1500</p>
+
+<blockquote>
+  <blockquote>
+    <p>Post.where(published: true).find_each do |post|
+     post.archive!
+   end</p>
+  </blockquote>
+</blockquote>
+
+<h1 id="no-warning-is-logged">No warning is logged</h1>
+<p>```</p>
+
+<p>Nguồn: <a href="http://blog.bigbinary.com/2016/04/13/rails-5-adds-option-to-log-warning-when-fetching-big-result-sets.html">http://blog.bigbinary.com/2016/04/13/rails-5-adds-option-to-log-warning-when-fetching-big-result-sets.html</a></p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="social-share">
+  <h4>Share on</h4>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon" class="twitter" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon" class="facebook" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon" class="google-plus" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+  </ul>
+</div><!-- /.social-share -->
+        <p class="byline"><strong>Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5</strong> was published on <time datetime="2016-04-13T00:00:00-03:00">April 13, 2016</time> and last modified on <time datetime="2016-03-28">March 28, 2016</time>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="/2016/05/01/singleton-pattern-trong-ruby" title="Singleton - Design Pattern trong Ruby">Singleton - Design Pattern trong Ruby</a></li>
+    
+      <li><a href="/2016/04/10/tung-buoc-xay-dung-mot-ruby-gem" title="Từng bước để xây dựng một Ruby Gem">Từng bước để xây dựng một Ruby Gem</a></li>
+    
+      <li><a href="/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx" title="Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx">Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  
+  <footer>
+    
+
+<span>2016 Nguyen Anh.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+
+  
+
+
+
+
+</body>
+</html>

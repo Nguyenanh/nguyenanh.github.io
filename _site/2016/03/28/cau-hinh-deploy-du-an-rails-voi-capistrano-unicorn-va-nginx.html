@@ -1,0 +1,334 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx &#8211; NguyenAnh Dev Blog</title>
+<meta name="description" content="`Deploy` là quá trình đưa source code bạn lên server sau khi bạn đã phát triển xong và chuẩn bị giao cho khách hàng. Đây là một công đoạn có phải nói các developer nào cũng phát biết trong con đường sự ngiệp của mình.">
+<meta name="keywords" content="deploy, capistrano, unicorn, nginx">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx">
+<meta name="twitter:description" content="`Deploy` là quá trình đưa source code bạn lên server sau khi bạn đã phát triển xong và chuẩn bị giao cho khách hàng. Đây là một công đoạn có phải nói các developer nào cũng phát biết trong con đường sự ngiệp của mình.">
+
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="/images/sample-image-5.jpg">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx">
+<meta property="og:description" content="`Deploy` là quá trình đưa source code bạn lên server sau khi bạn đã phát triển xong và chuẩn bị giao cho khách hàng. Đây là một công đoạn có phải nói các developer nào cũng phát biết trong con đường sự ngiệp của mình.">
+<meta property="og:url" content="/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx">
+<meta property="og:site_name" content="NguyenAnh Dev Blog">
+
+<meta property="og:image" content="/images/sample-image-5.jpg">
+
+
+
+
+
+
+<link rel="canonical" href="/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="NguyenAnh Dev Blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">NguyenAnh Dev Blog</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav id="site-nav" class="nav">
+		    <ul>
+		        
+				    
+				    <li><a href="/about/" >About</a></li>
+				
+				    
+				    <li><a href="/posts/" >All Post</a></li>
+				
+				    
+				    <li><a href="/theme-setup/" >Theme Setup</a></li>
+				
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+  <div class="image-wrap">
+  <img src=
+    
+      "/images/sample-image-5.jpg"
+    
+  alt="Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx feature image">
+  
+    <span class="image-credit">Photo Credit: <a href="http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/">WeGraphics</a></span>
+  
+  </div><!-- /.image-wrap -->
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+<div itemscope itemtype="http://schema.org/Person">
+
+
+	<img src="/images/bio-photo.jpeg" class="bio-photo" alt="Nguyen Anh bio photo">
+
+
+  <h3 itemprop="name">Nguyen Anh</h3>
+  <p>A VietNam web developer</p>
+  <a href="mailto:cauut2117610@gmail.com" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+  
+  <a href="http://facebook.com/anh.nguyen21176" class="author-social" target="_blank"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a>
+  
+  
+  
+  
+  
+  <a href="http://github.com/Nguyenanh" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</div>
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx" rel="bookmark" title="Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx">Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <p><code class="highlighter-rouge">Deploy</code> là quá trình đưa source code bạn lên server sau khi bạn đã phát triển xong và chuẩn bị giao cho khách hàng. Đây là một công đoạn có phải nói các developer nào cũng phát biết trong con đường sự ngiệp của mình.</p>
+
+<p>Tuy nhiên công việc deploy không phải lúc nào cũng diễn ra xuôi sẻ và không phải lúc nào cũng giống nhau. Nó cũng phụ thuộc vào nhiều yếu tố khác nhau</p>
+
+<p>Bài viết này mình sẽ hưỡng dẫn cấu hình để deploy một dự án Rails dùng capistrano, unicorn và nginx lên server Ubuntu 14.04.</p>
+
+<p>Trước khi bắt đầu, hãy chắc chắn là server của bạn đã cài đặt một số thứ như sau:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">Ruby</code></li>
+  <li><code class="highlighter-rouge">Git</code></li>
+  <li><code class="highlighter-rouge">Nginx</code></li>
+  <li><code class="highlighter-rouge">Một dự án ROR ở local</code></li>
+</ul>
+
+<h2 id="chin-thi-">Chiến thôi !!</h2>
+<p>1.Add thêm một số <code class="highlighter-rouge">gem</code> vào Gemfile và chạy <code class="highlighter-rouge">bundle íntall</code></p>
+
+<p><code class="highlighter-rouge">ruby
+#Gemfile
+gem 'capistrano'
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'capistrano-unicorn-nginx'
+gem 'unicorn'
+gem 'capistrano-rvm'
+</code></p>
+
+<p>2.Sau khi đã cài một số <code class="highlighter-rouge">gem</code> xong tiếp tục tạo ra những file config capistrano chạy lệnh sau:</p>
+
+<p><code class="highlighter-rouge">$ bundle exec cap install</code>
+Lệnh trên sẽ tạo cấu trúc file như sau.</p>
+
+<p>├── Capfile
+├── config
+│   ├── deploy
+│   │   ├── production.rb
+│   │   └── staging.rb
+│   └── deploy.rb
+└── lib
+    └── capistrano
+            └── tasks
+3. Require thêm một số gói vào <code class="highlighter-rouge">Capfile</code> và <code class="highlighter-rouge">Capfile</code> của bạn sẽ trông như thế này.</p>
+
+<p>``` ruby
+#Capfile
+# Load DSL and set up stages
+require ‘capistrano/setup’</p>
+
+<h1 id="include-default-deployment-tasks">Include default deployment tasks</h1>
+<p>require ‘capistrano/deploy’</p>
+
+<p>require ‘capistrano/rvm’
+require ‘capistrano/bundler’
+require ‘capistrano/rails’
+require ‘capistrano/unicorn_nginx’
+# Load custom tasks from `lib/capistrano/tasks’ if you have any defined</p>
+
+<p>Dir.glob(‘lib/capistrano/tasks/*.rake’).each { |r| import r }
+```</p>
+
+<p>4.Tiếp theo cấu hình cho <code class="highlighter-rouge">deploy.rb</code>.</p>
+
+<p>``` ruby
+#config/deploy.rb
+#Tên ứng dụng của bạn ở đây mình đặt tên Appdeploy
+set :application, ‘Appdeploy’
+#Repository của bạn
+set :repo_url, ‘https://github.com/Nguyenanh/Blog.git’
+#Đường dãn chứa source trên server sau khi deploy
+set :deploy_to, ‘/home/anhn/Appdeploy’
+set :scm, :git</p>
+
+<p>```
+5.Vậy là ta thiết lập những cấu hình chung để <code class="highlighter-rouge">deploy</code>. Giờ tùy vào từng môi trường ta sẽ thiết lập riêng. Bài viết này mình sẽ thiết lập trên môi trường <code class="highlighter-rouge">production</code>. Mở file <code class="highlighter-rouge">production.rb</code>.</p>
+
+<p>```ruby
+#config/deploy/production.rb
+#Set user và và server_name của bạn
+set :user, ‘anhn’
+set :server_name, ‘1.2.3.4’
+#Set branch trên Git mà bạn muốn deploy
+set :branch, ‘master’
+#Set môi trường, ở đây mình thiết lâp cho môi trường production
+set :rails_env, ‘production’
+set :bundle_flags, “–no-deployment”</p>
+
+<p>role :app, [”#{fetch(deploy_user)}@#{fetch(server_name)}”]
+role :web, [”#{fetch(deploy_user)}@#{fetch(server_name)}”]
+role :db,  [”#{fetch(deploy_user)}@#{fetch(server_name)}”]</p>
+
+<p>server fetch(server_name), user: fetch(deploy_user), roles: %w{web app db}, primary: true</p>
+
+<p>```
+Trường hợp server của bạn bắt authentication bằng <code class="highlighter-rouge">ssh</code> thì bạn thêm tùy chọn <code class="highlighter-rouge">ssh_option</code></p>
+
+<p><code class="highlighter-rouge">ruby
+#config/deploy/production.rb
+#home/anhn/.ssh/appdeploy.pem là đường dẫn mà mình dùng `.pem` để xác thực
+set :ssh_options, {
+  keys: %w(/home/anhn/.ssh/appdeploy.pem),
+  forward_agent: false,
+ }
+</code>
+6.Vậy là xong quá trình config cho quá trình <code class="highlighter-rouge">deploy</code>. Việc cuối cùng là kêu thằng capistrano đưa source lên server.
+<code class="highlighter-rouge">ruby
+$ bundle exec cap setup
+</code>
+Lệnh này sẽ bảo <code class="highlighter-rouge">cap</code> khỏi tạo cấu trúc đường dẫn cũng như file config <code class="highlighter-rouge">nginx</code> cho quá trình deploy.
+<code class="highlighter-rouge">ruby 
+$ bundle exec cap production deploy
+</code>
+Tiếp theo kêu cap deploy code lên server với môi trường production. Việc còn lại là ngồi rung đùi. Khi quay trở lại quá trình deploy hoàn tất.</p>
+
+<h3 id="kt-lun">Kết luận</h3>
+<p>Bài viết này xin nhấn mạnh thiết lập các cấu hình để deploy một dự án Rails lên server. Và đây chỉ là single server. Ở những bài viết sau mình sẽ hướng dẫn deploy trên HDH CentOS hoặc deploy với cấu trúc server NAT.</p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="social-share">
+  <h4>Share on</h4>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx" class="twitter" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx" class="facebook" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=/2016/03/28/cau-hinh-deploy-du-an-rails-voi-capistrano-unicorn-va-nginx" class="google-plus" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+  </ul>
+</div><!-- /.social-share -->
+        <p class="byline"><strong>Cấu hình deploy một dự án Rails với capistrano, unicorn và nginx</strong> was published on <time datetime="2016-03-28T00:00:00-03:00">March 28, 2016</time> and last modified on <time datetime="2016-03-28">March 28, 2016</time>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="/2016/05/01/singleton-pattern-trong-ruby" title="Singleton - Design Pattern trong Ruby">Singleton - Design Pattern trong Ruby</a></li>
+    
+      <li><a href="/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon" title="Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5">Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5</a></li>
+    
+      <li><a href="/2016/04/10/tung-buoc-xay-dung-mot-ruby-gem" title="Từng bước để xây dựng một Ruby Gem">Từng bước để xây dựng một Ruby Gem</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  
+  <footer>
+    
+
+<span>2016 Nguyen Anh.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+
+  
+
+
+
+
+</body>
+</html>

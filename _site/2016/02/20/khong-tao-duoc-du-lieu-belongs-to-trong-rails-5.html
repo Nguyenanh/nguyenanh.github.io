@@ -1,0 +1,282 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Lý do không tạo được record khi khai báo belongs_to trong Rails 5 &#8211; NguyenAnh Dev Blog</title>
+<meta name="description" content="Trong Rails 5. Bất cứ khi nào chúng ta định nghĩa một quan hệ belongs_to. Thì nó bắt buộc chúng ta cung cấp một đối tượng quan hệ với nó.
+Rails sẽ tiến hành validation lỗi nếu đối tượng quan hệ không tồn tại.">
+<meta name="keywords" content="rails 5, belongs-to, relationship">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Lý do không tạo được record khi khai báo belongs_to trong Rails 5">
+<meta name="twitter:description" content="Trong Rails 5. Bất cứ khi nào chúng ta định nghĩa một quan hệ belongs_to. Thì nó bắt buộc chúng ta cung cấp một đối tượng quan hệ với nó.
+Rails sẽ tiến hành validation lỗi nếu đối tượng quan hệ không tồn tại.">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="/images/default-thumb.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lý do không tạo được record khi khai báo belongs_to trong Rails 5">
+<meta property="og:description" content="Trong Rails 5. Bất cứ khi nào chúng ta định nghĩa một quan hệ belongs_to. Thì nó bắt buộc chúng ta cung cấp một đối tượng quan hệ với nó.
+Rails sẽ tiến hành validation lỗi nếu đối tượng quan hệ không tồn tại.">
+<meta property="og:url" content="/2016/02/20/khong-tao-duoc-du-lieu-belongs-to-trong-rails-5">
+<meta property="og:site_name" content="NguyenAnh Dev Blog">
+
+<meta property="og:image" content="/images/default-thumb.png">
+
+
+
+
+
+
+<link rel="canonical" href="/2016/02/20/khong-tao-duoc-du-lieu-belongs-to-trong-rails-5">
+<link href="/feed.xml" type="application/atom+xml" rel="alternate" title="NguyenAnh Dev Blog Feed">
+
+<!-- http://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="/assets/css/main.css">
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+	<script src="/assets/js/vendor/html5shiv.min.js"></script>
+	<script src="/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+<link href='//fonts.googleapis.com/css?family=PT+Sans+Narrow:400,700%7CPT+Serif:400,700,400italic' rel='stylesheet' type='text/css'>
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body class="post">
+
+<!--[if lt IE 9]><div class="browser-upgrade alert alert-info">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</div><![endif]-->
+
+<div class="navigation-wrapper">
+	<div class="site-name">
+		<a href="/">NguyenAnh Dev Blog</a>
+	</div><!-- /.site-name -->
+	<div class="top-navigation">
+		<nav id="site-nav" class="nav">
+		    <ul>
+		        
+				    
+				    <li><a href="/about/" >About</a></li>
+				
+				    
+				    <li><a href="/posts/" >All Post</a></li>
+				
+				    
+				    <li><a href="/theme-setup/" >Theme Setup</a></li>
+				
+		    </ul>
+		</nav>
+	</div><!-- /.top-navigation -->
+</div><!-- /.navigation-wrapper -->
+
+
+
+
+<div id="main" role="main">
+  <div class="article-author-side">
+    
+
+<div itemscope itemtype="http://schema.org/Person">
+
+
+	<img src="/images/bio-photo.jpeg" class="bio-photo" alt="Nguyen Anh bio photo">
+
+
+  <h3 itemprop="name">Nguyen Anh</h3>
+  <p>A VietNam web developer</p>
+  <a href="mailto:cauut2117610@gmail.com" class="author-social" target="_blank"><i class="fa fa-fw fa-envelope-square"></i> Email</a>
+  
+  <a href="http://facebook.com/anh.nguyen21176" class="author-social" target="_blank"><i class="fa fa-fw fa-facebook-square"></i> Facebook</a>
+  
+  
+  
+  
+  
+  <a href="http://github.com/Nguyenanh" class="author-social" target="_blank"><i class="fa fa-fw fa-github"></i> Github</a>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+</div>
+
+  </div>
+  <article class="post">
+    <div class="headline-wrap">
+      
+        <h1><a href="/2016/02/20/khong-tao-duoc-du-lieu-belongs-to-trong-rails-5" rel="bookmark" title="Lý do không tạo được record khi khai báo belongs_to trong Rails 5">Lý do không tạo được record khi khai báo belongs_to trong Rails 5</a></h1>
+      
+    </div><!--/ .headline-wrap -->
+    <div class="article-wrap">
+      <p>Trong Rails 5. Bất cứ khi nào chúng ta định nghĩa một quan hệ <code class="highlighter-rouge">belongs_to</code>. Thì nó bắt buộc chúng ta cung cấp một đối tượng quan hệ với nó.</p>
+
+<p>Rails sẽ tiến hành validation lỗi nếu đối tượng quan hệ không tồn tại</p>
+
+<p>``` ruby
+class User &lt; ApplicationRecord
+end
+class Post &lt; ApplicationRecord
+    belongs_to :user
+end</p>
+
+<p>post = Post.create(title: ‘Hi’)
+ =&gt; &lt;Post id: nil, title: “Hi”, user_id: nil, created_at: nil, updated_at: nil&gt;</p>
+
+<p>post.errors.full_messages.to_sentence
+ =&gt; “User must exist”
+```</p>
+
+<p>Như chúng ta có thể thấy, chúng ta không thể tạo bất kỳ một <code class="highlighter-rouge">post</code> nào nếu không có một quan hệ <code class="highlighter-rouge">user</code> nào</p>
+
+<h3 id="lm-th-no--gii-quyt-c-iu-ny-trong-rails-5">Làm thế nào để giải quyết được điều này trong Rails 5</h3>
+<p>Trong Rails 4.x để thêm validation cho <code class="highlighter-rouge">belongs_to</code> chúng ta chỉ cần thêm tùy chọn <code class="highlighter-rouge">required: true</code>.</p>
+
+<p>``` ruby
+class User &lt; ApplicationRecord
+end</p>
+
+<p>class Post &lt; ApplicationRecord
+  belongs_to :user, required: true
+end</p>
+
+<p>post = Post.create(title: ‘Hi’)
+=&gt; &lt;Post id: nil, title: “Hi”, user_id: nil, created_at: nil, updated_at: nil&gt;</p>
+
+<p>post.errors.full_messages.to_sentence
+=&gt; “User must exist”
+```
+Mặc định trong Rails 4.x tùy chọn <code class="highlighter-rouge">required</code> là <code class="highlighter-rouge">false</code>.</p>
+
+<p>Để bỏ qua validation <code class="highlighter-rouge">belongs_to</code> trong Rails 5. Chúng ta chỉ cần thêm tùy chọn <code class="highlighter-rouge">optional: true</code>.</p>
+
+<p>``` ruby
+class Post &lt; ApplicationRecord
+  belongs_to :user, optional: true
+end</p>
+
+<p>post = Post.create(title: ‘Hi’)
+=&gt; &lt;Post id: 2, title: “Hi”, user_id: nil&gt;
+```</p>
+
+<p>Với thêm tùy chọn ở trên thì validation sẽ bỏ qua với class  <code class="highlighter-rouge">Post</code> và tất cả model còn lại sẽ vẫn bị validation.
+### Bỏ qua validation cho toàn bộ model trong Rails 5.
+Mặc định Rails 5 setting validation cho toàn bộ model</p>
+
+<p><code class="highlighter-rouge">ruby
+Rails.application.config.active_record.belongs_to_required_by_default = true.
+</code></p>
+
+<p>Để bỏ validation chúng ta cần seting lại giá trị sang <code class="highlighter-rouge">false</code>.</p>
+
+<p>``` ruby
+Rails.application.config.active_record.belongs_to_required_by_default = false</p>
+
+<p>class Post &lt; ApplicationRecord
+  belongs_to :user
+end</p>
+
+<p>post = Post.create(title: ‘Hi’)
+=&gt; &lt;Post id: 3, title: “Hi”, user_id: nil, created_at: “2016-02-11 12:36:05”, updated_at: “2016-02-11 12:36:05”&gt;
+```</p>
+
+<p>Nguồn: http://blog.bigbinary.com/2016/02/15/rails-5-makes-belong-to-association-required-by-default.html</p>
+
+      <hr />
+      <footer role="contentinfo">
+        <div class="social-share">
+  <h4>Share on</h4>
+  <ul>
+    <li>
+      <a href="https://twitter.com/intent/tweet?text=/2016/02/20/khong-tao-duoc-du-lieu-belongs-to-trong-rails-5" class="twitter" title="Share on Twitter"><i class="fa fa-twitter"></i><span> Twitter</span></a>
+    </li>
+    <li>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=/2016/02/20/khong-tao-duoc-du-lieu-belongs-to-trong-rails-5" class="facebook" title="Share on Facebook"><i class="fa fa-facebook"></i><span> Facebook</span></a>
+    </li>
+    <li>
+      <a href="https://plus.google.com/share?url=/2016/02/20/khong-tao-duoc-du-lieu-belongs-to-trong-rails-5" class="google-plus" title="Share on Google Plus"><i class="fa fa-google-plus"></i><span> Google+</span></a>
+    </li>
+  </ul>
+</div><!-- /.social-share -->
+        <p class="byline"><strong>Lý do không tạo được record khi khai báo belongs_to trong Rails 5</strong> was published on <time datetime="2016-02-20T00:00:00-03:00">February 20, 2016</time> and last modified on <time datetime="2016-02-20">February 20, 2016</time>.</p>
+      </footer>
+    </div><!-- /.article-wrap -->
+  
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrap">
+  
+  <div class="related-articles">
+  <h4>You might also enjoy <small class="pull-right">(<a href="/posts/">View all posts</a>)</small></h4>
+    <ul>
+    
+      <li><a href="/2016/05/01/singleton-pattern-trong-ruby" title="Singleton - Design Pattern trong Ruby">Singleton - Design Pattern trong Ruby</a></li>
+    
+      <li><a href="/2016/04/13/rails-5-them-loi-canh-bao-khi-quey-du-lieu-lon" title="Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5">Thêm lời cảnh báo khi query dữ liêụ lớn trong rails 5</a></li>
+    
+      <li><a href="/2016/04/10/tung-buoc-xay-dung-mot-ruby-gem" title="Từng bước để xây dựng một Ruby Gem">Từng bước để xây dựng một Ruby Gem</a></li>
+    
+    </ul>
+    <hr />
+  </div><!-- /.related-articles -->
+  
+  <footer>
+    
+
+<span>2016 Nguyen Anh.</span>
+
+  </footer>
+</div><!-- /.footer-wrap -->
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="/assets/js/scripts.min.js"></script>
+
+
+  
+
+
+
+
+</body>
+</html>
