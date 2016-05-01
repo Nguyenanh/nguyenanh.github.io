@@ -43,8 +43,8 @@ links:
 timezone:    America/Fortaleza
 future:      true
 highlighter: rouge
-markdown:    kramdown
-
+markdown:    redcarpet
+paginate:   3
 # https://github.com/mojombo/jekyll/wiki/Permalinks
 permalink:  /:categories/:year/:month/:day/:title
 

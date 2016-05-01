@@ -5,10 +5,6 @@ excerpt: "`Deploy` là quá trình đưa source code bạn lên server sau khi b
 modified: 2016-03-28
 tags: [deploy, capistrano, unicorn, nginx]
 comments: true
-image:
-  feature: sample-image-5.jpg
-  credit: WeGraphics
-  creditlink: http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/
 ---
 
 `Deploy` là quá trình đưa source code bạn lên server sau khi bạn đã phát triển xong và chuẩn bị giao cho khách hàng. Đây là một công đoạn có phải nói các developer nào cũng phát biết trong con đường sự ngiệp của mình.
