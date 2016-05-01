@@ -9,6 +9,7 @@ comments: true
 ### Pattern Singleton là gì?
 
 Mẫu thiết kế Singleton đảm bảo rằng một lớp chỉ có một thể hiện (instance) duy nhất. Do thể hiện này có tiềm năng sử dụng trong suốt chương trình, nên mẫu thiết kế Singleton cũng cung cấp một điểm truy cập toàn cục đến nó.
+
 ### Pattern Singleton được sử dụng trong trường hợp nào?
 
 Khi bạn tạo ra một class mà bạn chỉ muốn chỉ có duy nhất một thực thể là thể hiện của class đó và bạn có thể truy cập đến nó ở bất kỳ nơi đâu khi bạn muốn. Ví dụ:
@@ -56,7 +57,6 @@ Qua việc chạy trên cho thấy chỉ một instance được tao ra thông q
 ### Sử dụng Singleton module của Ruby.
 
 Trong Ruby đã hỗ trợ cho chúng ta Singleton Patttern đó là Singeleton module. Để tối giản công việc trên chúng ta chỉ cần sử dụng nó.
-
  ``` ruby
  #singleton/singleton_moudle.rb
  require 'singleton'
@@ -68,7 +68,6 @@ class Database
 end
 
 ```
-
 
 ``` ruby
 2.2.3 :002 > load 'singleton/singleton_module.rb'
