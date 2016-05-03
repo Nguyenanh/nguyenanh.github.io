@@ -13,17 +13,19 @@ Có thể hiểu `Observer` thuộc nhóm pattern `Behavioral` là một mẫu t
 
 Mô hình cơ bản của 1 mẫu Observer thường bao gồm 4 thành phần sau.
 
-- `Subject`: giao diện cho đối tượng dữ liệu, khai báo các phương thức chính:
+1.`Subject`: giao diện cho đối tượng dữ liệu, khai báo các phương thức chính:
 
-* add_observer: thêm các Observer vào danh sách đăng ký các đối tượng cần phải thông báo về sự thay đổi.
-* delete_observer: xóa Observer chỉ định ra khỏi danh sách đăng ký các đối tượng cần phải thông báo về sự thay đổi.
-* notify_observers: thông báo cho các Observer đã đăng ký về những thay đổi trên Subject.
+  * add_observer: thêm các Observer vào danh sách đăng ký các đối tượng cần phải thông báo về sự thay đổi.
 
-- `ConcreteSubject`: cài đặt giao diện Subject. Vì thường là đối tượng dữ liệu, nó lưu giữ trạng thái mà các đối tượng Observer quan tâm. Khi trạng thái này thay đổi, các Observer đăng ký với nó sẽ được thông báo.
+  * delete_observer: xóa Observer chỉ định ra khỏi danh sách đăng ký các đối tượng cần phải thông báo về sự thay đổi.
 
-- `Observer`: Khai báo giao diện với phương thức chính update. Phương thức này có thể truy cập đối tượng Subject mà nó đăng ký, cập nhật Observer với trạng thái thay đổi của Subject.
+  * notify_observers: thông báo cho các Observer đã đăng ký về những thay đổi trên Subject.
 
-- `ConcreteSubject`: cài đặt giao diện của Observer. Constructor của nó thường yêu cầu phải đăng ký nó cho đối tượng Subject mà nó theo dõi. Khi được thông báo, nó sẽ thực thi một tác vụ gì đó, ví dụ thay đổi giao diện, cập nhật biểu đồ.
+2.`ConcreteSubject`: cài đặt giao diện Subject. Vì thường là đối tượng dữ liệu, nó lưu giữ trạng thái mà các đối tượng Observer quan tâm. Khi trạng thái này thay đổi, các Observer đăng ký với nó sẽ được thông báo.
+
+3.`Observer`: Khai báo giao diện với phương thức chính update. Phương thức này có thể truy cập đối tượng Subject mà nó đăng ký, cập nhật Observer với trạng thái thay đổi của Subject.
+
+4.`ConcreteSubject`: cài đặt giao diện của Observer. Constructor của nó thường yêu cầu phải đăng ký nó cho đối tượng Subject mà nó theo dõi. Khi được thông báo, nó sẽ thực thi một tác vụ gì đó, ví dụ thay đổi giao diện, cập nhật biểu đồ.
 
 
 ### Pattern Observer được sử dụng trong trường hợp nào?
@@ -32,7 +34,8 @@ Khi bạn muốn các đối tượng liên lạc với nhau. Khi đối tượn
 
 ### Cách cài đặt.
 
-##### 1. Tạo `Subject` và `Observer`
+##### 1. Tạo `Subject` và `Observer`.
+
 
 ```ruby
 
