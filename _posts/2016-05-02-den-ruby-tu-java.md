@@ -17,10 +17,11 @@ Giống như Java, trong Ruby,…
 * Đối tượng là kiểu dữ liệu chủ đạo.
 * Có các phương thức public, private, và protected.
 * Có tích hợp các công cụ doc (trong Ruby là RDoc). Các doc được tạo bằng rdoc cũng tương tự như được tạo bởi javadoc.
-* 
+
+
 ### Khác biệt
 
-Khác với Java, trong Ruby,…
+Khác với `Java`, trong `Ruby`,…
 
 * Bạn không cần phải biên dịch, chỉ cần chạy trực tiếp.
 * Có một số khác biệt với các công cụ GUI của bên thứ ba. Người dùng Ruby có thể dùng WxRuby, FXRuby, Ruby-GNOME2, Qt, hoặc ví dụ như các gói trong Ruby Tk.
