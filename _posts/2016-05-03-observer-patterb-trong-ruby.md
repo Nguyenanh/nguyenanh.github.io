@@ -13,8 +13,8 @@ Có thể hiểu `Observer` thuộc nhóm pattern `Behavioral` là một mẫu t
 
 Mô hình cơ bản của 1 mẫu Observer thường bao gồm 4 thành phần sau.
 
-
 1.`Subject`: giao diện cho đối tượng dữ liệu, khai báo các phương thức chính:
+
 
   * add_observer: thêm các Observer vào danh sách đăng ký các đối tượng cần phải thông báo về sự thay đổi.
 
