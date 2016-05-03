@@ -13,6 +13,7 @@ Có thể hiểu `Observer` thuộc nhóm pattern `Behavioral` là một mẫu t
 
 Mô hình cơ bản của 1 mẫu Observer thường bao gồm 4 thành phần sau.
 
+
 1.`Subject`: giao diện cho đối tượng dữ liệu, khai báo các phương thức chính:
 
   * add_observer: thêm các Observer vào danh sách đăng ký các đối tượng cần phải thông báo về sự thay đổi.
@@ -23,7 +24,9 @@ Mô hình cơ bản của 1 mẫu Observer thường bao gồm 4 thành phần s
 
 2.`ConcreteSubject`: cài đặt giao diện Subject. Vì thường là đối tượng dữ liệu, nó lưu giữ trạng thái mà các đối tượng Observer quan tâm. Khi trạng thái này thay đổi, các Observer đăng ký với nó sẽ được thông báo.
 
+
 3.`Observer`: Khai báo giao diện với phương thức chính update. Phương thức này có thể truy cập đối tượng Subject mà nó đăng ký, cập nhật Observer với trạng thái thay đổi của Subject.
+
 
 4.`ConcreteSubject`: cài đặt giao diện của Observer. Constructor của nó thường yêu cầu phải đăng ký nó cho đối tượng Subject mà nó theo dõi. Khi được thông báo, nó sẽ thực thi một tác vụ gì đó, ví dụ thay đổi giao diện, cập nhật biểu đồ.
 
@@ -99,6 +102,7 @@ end
 ##### 3. Tạo `ConcreteObserver`
 
 Ở đây mình sẽ tạo ra 2 class là `Payroll` và `TaxMan` sẽ lắng nghe khi có thông báo từ  đối tượng của lớp `Employee`
+
 ```ruby
 
 #payroll.rb
