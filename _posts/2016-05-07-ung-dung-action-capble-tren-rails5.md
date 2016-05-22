@@ -122,6 +122,7 @@ App.room = App.cable.subscriptions.create "RoomChannel",
 
 
 Cấu hình cho server.
+
 ```ruby
 
 # app/channels/room_channel.rb
@@ -147,6 +148,7 @@ rails g job MessageBroadcast
 ```
 
 Ta sẽ sử dụng Callbacks của Active Record để gọi Jobs thực hiện response cho client.
+
 ```ruby
 #models/message.rb
 class Message < ApplicationRecord
